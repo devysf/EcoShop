@@ -1,5 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import { Provider } from "react-redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import reducers from "./reducers";
 
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 
@@ -7,6 +11,7 @@ import AuthScreen from "./screens/AuthScreen";
 import BrowseScreen from "./screens/BrowseScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
+//Structure of Navigation
 const MainNavigator = createBottomTabNavigator({
   auth: {
     screen: AuthScreen,
@@ -31,9 +36,16 @@ const MainNavigator = createBottomTabNavigator({
 
 const RootNavigation = createAppContainer(MainNavigator);
 
+//Settings of redux store
+const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
+
 class App extends React.Component {
   render() {
-    return <RootNavigation />;
+    return (
+      <Provider store={store}>
+        <RootNavigation />
+      </Provider>
+    );
   }
 }
 export default App;
