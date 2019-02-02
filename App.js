@@ -3,13 +3,13 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import reducers from "./reducers";
+import reducers from "./src/reducers";
 
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 
-import AuthScreen from "./screens/AuthScreen";
-import BrowseScreen from "./screens/BrowseScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import AuthScreen from "./src/screens/AuthScreen";
+import BrowseScreen from "./src/screens/BrowseScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
 
 //Structure of Navigation
 const MainNavigator = createBottomTabNavigator({
@@ -34,7 +34,7 @@ const MainNavigator = createBottomTabNavigator({
   }
 });
 
-const RootNavigation = createAppContainer(MainNavigator);
+var RootNavigation = createAppContainer(MainNavigator);
 
 //Settings of redux store
 const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
