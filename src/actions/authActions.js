@@ -32,7 +32,7 @@ export const registerUser = ({ email, password }) => {
       .catch(err => {
         console.log("User register fail" + err);
 
-        dispatch({ type: LOGIN_USER_FAIL });
+        dispatch({ type: LOGIN_USER_FAIL, payload: err.message });
       });
   };
 };
@@ -54,7 +54,7 @@ export const loginUser = ({ email, password }) => {
       })
       .catch(err => {
         console.log("Login Fail. " + err);
-        dispatch({ type: LOGIN_USER_FAIL });
+        dispatch({ type: LOGIN_USER_FAIL, payload: err.message });
       });
   };
 };

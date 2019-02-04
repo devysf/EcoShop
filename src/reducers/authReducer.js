@@ -16,13 +16,13 @@ export default function(state = INITIAL_STATE, action) {
 
   switch (action.type) {
     case LOGIN_REGISTER_FLAG:
-      return { ...state, registerLoginFlag: flag };
+      return { ...state, ...INITIAL_STATE, registerLoginFlag: flag };
     case LOGIN_USER:
       return { ...state, loading: true, error: "" };
     case LOGIN_USER_SUCCESS:
       return { ...state, user: action.payload, error: "", loading: false };
     case LOGIN_USER_FAIL:
-      return { ...state, error: "Fail", loading: false };
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }

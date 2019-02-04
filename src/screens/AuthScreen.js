@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { connect } from "react-redux";
 
-import { Button } from "react-native-elements";
-
 import RegisterForm from "../components/RegisterForm";
 import LoginForm from "../components/LoginForm";
 
@@ -13,6 +11,16 @@ import { firebaseConfig } from "../../config/firebaseConfig";
 class AuthScreen extends Component {
   componentWillMount() {
     firebase.initializeApp(firebaseConfig);
+
+    if (this.props.user) {
+      this.props.navigation.navigate("browse");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.props.navigation.navigate("browse");
+    }
   }
 
   render() {
@@ -32,7 +40,8 @@ class AuthScreen extends Component {
 }
 
 function mapStateToProps({ auth }) {
-  return { registerLoginFlag: auth.registerLoginFlag };
-}
+  const { user, registerLoginFlag } = auth;
 
+  return { user, registerLoginFlag };
+}
 export default connect(mapStateToProps)(AuthScreen);
