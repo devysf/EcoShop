@@ -37,7 +37,13 @@ const MainNavigator = createBottomTabNavigator({
 var RootNavigation = createAppContainer(MainNavigator);
 
 //Settings of redux store
-const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  reducers,
+  {},
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 class App extends React.Component {
   render() {
