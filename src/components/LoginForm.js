@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View, ActivityIndicator } from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
 import firebase from "firebase";
 
-import Icon from "react-native-vector-icons/FontAwesome";
 import { Button } from "react-native-elements";
 
 class LoginForm extends Component {
@@ -18,18 +17,27 @@ class LoginForm extends Component {
   onButtonPress = () => {
     /* DO: firebase register-login */
     console.log(this.state);
-
     const { email, password } = this.state;
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log("User login succes.");
-      })
-      .catch(err => {
-        console.log("Login Fail. " + err);
-      });
+    this.props.loginUser({ email, password });
+  };
+
+  renderButton = () => {
+    if (this.props.loading) {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
+    return (
+      <Button
+        title="Login"
+        backgroundColor="#009688"
+        onPress={this.onButtonPress}
+      />
+    );
   };
 
   render() {
@@ -48,11 +56,10 @@ class LoginForm extends Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button
-          title="Login"
-          backgroundColor="#009688"
-          onPress={this.onButtonPress}
-        />
+        <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+
+        {this.renderButton()}
+
         <Text onPress={() => this.props.changeLoginRegisterFlag("register")}>
           Create Account
         </Text>
@@ -61,8 +68,15 @@ class LoginForm extends Component {
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    color: "red"
+  }
+};
 function mapStateToProps({ auth }) {
-  return { registerLoginFlag: auth.registerLoginFlag };
+  const { error, loading } = auth;
+
+  return { error, loading };
 }
 export default connect(
   mapStateToProps,

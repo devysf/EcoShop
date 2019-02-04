@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View, ActivityIndicator } from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -20,16 +20,27 @@ class RegisterForm extends Component {
 
     const { email, password } = this.state;
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log("register user succes");
-      })
-      .catch(err => {
-        console.log("User register fail" + err);
-      });
+    this.props.registerUser({ email, password });
   };
+
+  renderButton = () => {
+    if (this.props.loading) {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
+    return (
+      <Button
+        title="Register"
+        backgroundColor="#009688"
+        onPress={this.onButtonPress}
+      />
+    );
+  };
+
   render() {
     return (
       <View>
@@ -46,11 +57,11 @@ class RegisterForm extends Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button
-          title="Register"
-          backgroundColor="#009688"
-          onPress={this.onButtonPress}
-        />
+
+        <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+
+        {this.renderButton()}
+
         <Text onPress={() => this.props.changeLoginRegisterFlag("login")}>
           Do you have an account?
         </Text>
@@ -59,8 +70,16 @@ class RegisterForm extends Component {
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    color: "red"
+  }
+};
+
 function mapStateToProps({ auth }) {
-  return { registerLoginFlag: auth.registerLoginFlag };
+  const { error, loading } = auth;
+
+  return { error, loading };
 }
 
 export default connect(
