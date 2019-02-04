@@ -5,11 +5,16 @@ import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./src/reducers";
 
-import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer
+} from "react-navigation";
 
 import AuthScreen from "./src/screens/AuthScreen";
 import BrowseScreen from "./src/screens/BrowseScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import AddItemScreen from "./src/screens/AddItemScreen";
 
 //Structure of Navigation
 const MainNavigator = createBottomTabNavigator({
@@ -22,7 +27,12 @@ const MainNavigator = createBottomTabNavigator({
   main: {
     screen: createBottomTabNavigator(
       {
-        browse: { screen: BrowseScreen },
+        browse: {
+          screen: createStackNavigator({
+            browse: { screen: BrowseScreen },
+            addItem: { screen: AddItemScreen }
+          })
+        },
         profile: { screen: ProfileScreen }
       },
       {
