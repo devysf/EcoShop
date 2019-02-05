@@ -5,29 +5,24 @@ import { Button } from "react-native-elements";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
+import UploadImage from "../components/UploadImage";
 
 class AddItemScreen extends Component {
-  state = {
-    name: "",
-    description: "",
-    price: ""
-  };
   onButtonPress = () => {
-    const { name, description, price } = this.state;
+    const { name, description, price, image } = this.props;
     this.props.itemCreate({
       name,
       description,
-      price
+      price,
+      image
     });
 
     this.props.navigation.navigate("browse");
   };
 
-  handleInputChange = price => {
-    if (/^\d+$/.test(price)) {
-      this.setState({
-        price: price
-      });
+  handleInputChange = value => {
+    if (/^\d+$/.test(value)) {
+      this.props.itemUpdate({ prop: "price", value });
     }
   };
 
@@ -37,21 +32,27 @@ class AddItemScreen extends Component {
         <Text>ADD ITEM</Text>
         <TextInput
           placeholder="Enter name:"
-          onChangeText={name => this.setState({ name })}
-          value={this.state.name}
+          value={this.props.name}
+          onChangeText={value => this.props.itemUpdate({ prop: "name", value })}
         />
 
         <TextInput
           placeholder="Enter description:"
-          onChangeText={description => this.setState({ description })}
-          value={this.state.description}
+          value={this.props.description}
+          onChangeText={value =>
+            this.props.itemUpdate({ prop: "description", value })
+          }
         />
         <TextInput
           keyboardType="numeric"
           placeholder="Enter price:"
           onChangeText={this.handleInputChange}
-          value={this.state.price}
+          value={this.props.price}
         />
+
+        <View>
+          <UploadImage />
+        </View>
 
         <Button
           title="Add Item"
@@ -63,7 +64,13 @@ class AddItemScreen extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const { name, description, price, image } = state.itemForm;
+
+  return { name, description, price, image };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(AddItemScreen);

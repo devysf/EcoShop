@@ -1,5 +1,10 @@
 import firebase from "firebase";
-import { ITEMS_FETCH_WITH_UID, ALL_ITEMS_FETCH, ITEM_CREATE } from "./types";
+import {
+  ITEMS_FETCH_WITH_UID,
+  ALL_ITEMS_FETCH,
+  ITEM_CREATE,
+  ITEM_UPDATE
+} from "./types";
 
 export const itemsFetchWithUid = () => {
   const { currentUser } = firebase.auth();
@@ -25,12 +30,24 @@ export const allItemsFetch = () => {
       .database()
       .ref("/items")
       .on("value", snapshot => {
-        dispatch({ type: ALL_ITEMS_FETCH, payload: snapshot.val() });
+        if (snapshot.val() === null) {
+          var snpsht = [];
+          dispatch({ type: ALL_ITEMS_FETCH, payload: snpsht });
+        } else {
+          dispatch({ type: ALL_ITEMS_FETCH, payload: snapshot.val() });
+        }
       });
   };
 };
 
-export const itemCreate = ({ name, description, price }) => {
+export const itemUpdate = ({ prop, value }) => {
+  return {
+    type: ITEM_UPDATE,
+    payload: { prop, value }
+  };
+};
+
+export const itemCreate = ({ name, description, price, image }) => {
   const { currentUser } = firebase.auth();
   var owner = currentUser.displayName;
 
@@ -38,14 +55,14 @@ export const itemCreate = ({ name, description, price }) => {
     firebase
       .database()
       .ref("/items")
-      .push({ name, description, price, owner })
+      .push({ name, description, price, owner, image })
       .then(() => {
         dispatch({ type: ITEM_CREATE });
 
         firebase
           .database()
           .ref(`/users/${currentUser.uid}/items`)
-          .push({ name, description, price, owner });
+          .push({ name, description, price, owner, image });
       });
   };
 };
