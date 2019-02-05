@@ -1,4 +1,8 @@
-import { ITEMS_FETCH_WITH_UID, ALL_ITEMS_FETCH } from "../actions/types";
+import {
+  ITEMS_FETCH_WITH_UID,
+  ALL_ITEMS_FETCH,
+  ITEM_CREATE
+} from "../actions/types";
 
 const INITIAL_STATE = {
   itemsWithUid: [],
@@ -11,6 +15,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, itemsWithUid: action.payload };
     case ALL_ITEMS_FETCH:
       return { ...state, allItems: action.payload };
+    case ITEM_CREATE:
+      return { ...state };
     default:
       return state;
   }

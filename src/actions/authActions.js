@@ -14,7 +14,7 @@ export const changeLoginRegisterFlag = flag => {
   };
 };
 
-export const registerUser = ({ email, password }) => {
+export const registerUser = ({ name, email, password }) => {
   return dispatch => {
     dispatch({ type: LOGIN_USER });
 
@@ -23,6 +23,11 @@ export const registerUser = ({ email, password }) => {
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
         console.log("register user succes");
+
+        var user1 = firebase.auth().currentUser;
+        user1.updateProfile({
+          displayName: name
+        });
 
         dispatch({
           type: LOGIN_USER_SUCCESS,
