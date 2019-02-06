@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, ListView } from "react-native";
-
-import { Button } from "react-native-elements";
+import {
+  Button,
+  View,
+  Text,
+  ListView,
+  Image,
+  TouchableWithoutFeedback
+} from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -25,13 +30,25 @@ class BrowseScreen extends Component {
     this.dataSource = ds.cloneWithRows(items);
   }
 
-  renderRow(item) {
+  renderRow = item => {
     return (
-      <View>
-        <Text>{item.name}</Text>
-      </View>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          this.props.navigation.navigate("detail", { item });
+        }}
+      >
+        <View>
+          <Text>{item.name}</Text>
+          <View>
+            <Image
+              source={{ uri: item.image }}
+              style={{ width: 250, height: 250 }}
+            />
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
-  }
+  };
 
   onButtonPress = () => {
     this.props.navigation.navigate("addItem");
@@ -46,11 +63,13 @@ class BrowseScreen extends Component {
           dataSource={this.dataSource}
           renderRow={this.renderRow}
         />
-        <Button
-          title="Add Item"
-          backgroundColor="#009688"
-          onPress={this.onButtonPress}
-        />
+        <View style={{ position: "absolute", bottom: 20, left: 0, right: 0 }}>
+          <Button
+            title="Add Item"
+            backgroundColor="#009688"
+            onPress={this.onButtonPress}
+          />
+        </View>
       </View>
     );
   }

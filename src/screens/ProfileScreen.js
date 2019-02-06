@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, ListView } from "react-native";
+import {
+  View,
+  Text,
+  ListView,
+  Image,
+  TouchableWithoutFeedback
+} from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -29,6 +35,12 @@ class ProfileScreen extends Component {
     return (
       <View>
         <Text>{item.name}</Text>
+        <View>
+          <Image
+            source={{ uri: item.image }}
+            style={{ width: 250, height: 250 }}
+          />
+        </View>
       </View>
     );
   }
@@ -38,8 +50,6 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    console.log(this.props);
-
     return (
       <View>
         <Text>ProfileScreen</Text>

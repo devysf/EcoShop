@@ -15,6 +15,7 @@ import AuthScreen from "./src/screens/AuthScreen";
 import BrowseScreen from "./src/screens/BrowseScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddItemScreen from "./src/screens/AddItemScreen";
+import DetailScreen from "./src/screens/DetailScreen";
 
 //Structure of Navigation
 const MainNavigator = createBottomTabNavigator({
@@ -30,7 +31,8 @@ const MainNavigator = createBottomTabNavigator({
         browse: {
           screen: createStackNavigator({
             browse: { screen: BrowseScreen },
-            addItem: { screen: AddItemScreen }
+            addItem: { screen: AddItemScreen },
+            detail: { screen: DetailScreen }
           })
         },
         profile: { screen: ProfileScreen }
