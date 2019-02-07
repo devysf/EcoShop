@@ -1,20 +1,21 @@
 import React, { Component } from "react";
-import { View, Text, TextInput } from "react-native";
-
-import { Button } from "react-native-elements";
+import { ScrollView, View, Text, TextInput, Button } from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
+
 import UploadImage from "../components/UploadImage";
+import UploadLocation from "../components/UploadLocation";
 
 class AddItemScreen extends Component {
   onButtonPress = () => {
-    const { name, description, price, image } = this.props;
+    const { name, description, price, image, location } = this.props;
     this.props.itemCreate({
       name,
       description,
       price,
-      image
+      image,
+      location
     });
 
     this.props.navigation.navigate("browse");
@@ -28,7 +29,7 @@ class AddItemScreen extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <Text>ADD ITEM</Text>
         <TextInput
           placeholder="Enter name:"
@@ -54,20 +55,26 @@ class AddItemScreen extends Component {
           <UploadImage />
         </View>
 
-        <Button
-          title="Add Item"
-          backgroundColor="#009688"
-          onPress={this.onButtonPress}
-        />
-      </View>
+        <View>
+          <UploadLocation />
+        </View>
+
+        <View style={{ position: "absolute", bottom: 20, left: 0, right: 0 }}>
+          <Button
+            title="Add Item"
+            backgroundColor="#009688"
+            onPress={this.onButtonPress}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { name, description, price, image } = state.itemForm;
+  const { name, description, price, image, location } = state.itemForm;
 
-  return { name, description, price, image };
+  return { name, description, price, image, location };
 };
 
 export default connect(

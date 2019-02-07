@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   name: "",
   description: "",
   price: "",
-  image: ""
+  image: "",
+  location: {}
 };
 
 export default (state = INITIAL_STATE, action) => {

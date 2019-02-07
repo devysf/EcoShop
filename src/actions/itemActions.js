@@ -47,7 +47,7 @@ export const itemUpdate = ({ prop, value }) => {
   };
 };
 
-export const itemCreate = ({ name, description, price, image }) => {
+export const itemCreate = ({ name, description, price, image, location }) => {
   const { currentUser } = firebase.auth();
   var owner = currentUser.displayName;
 
@@ -55,14 +55,14 @@ export const itemCreate = ({ name, description, price, image }) => {
     firebase
       .database()
       .ref("/items")
-      .push({ name, description, price, owner, image })
+      .push({ name, description, price, owner, image, location })
       .then(() => {
         dispatch({ type: ITEM_CREATE });
 
         firebase
           .database()
           .ref(`/users/${currentUser.uid}/items`)
-          .push({ name, description, price, owner, image });
+          .push({ name, description, price, owner, image, location });
       });
   };
 };
