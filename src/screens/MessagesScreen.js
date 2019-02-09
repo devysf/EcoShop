@@ -11,9 +11,10 @@ import {
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-class BrowseScreen extends Component {
+class MessagesScreen extends Component {
   componentWillMount() {
-    this.props.allItemsFetch();
+    //feth inbox
+    this.props.inboxFetch();
 
     this.createDataSource(this.props);
   }
@@ -22,54 +23,40 @@ class BrowseScreen extends Component {
     this.createDataSource(nextProps);
   }
 
-  createDataSource({ items }) {
+  createDataSource({ inbox }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    this.dataSource = ds.cloneWithRows(items);
+    this.dataSource = ds.cloneWithRows(inbox);
   }
 
-  renderRow = item => {
+  renderRow = inbox => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.props.navigation.navigate("detail", { item });
+          //Go to one to one message screen
+          console.log("inbox: renderrow");
+          console.log(inbox);
+          this.props.navigation.navigate("chat", { inbox });
         }}
       >
         <View>
-          <Text>{item.name}</Text>
-          <View>
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 250, height: 250 }}
-            />
-          </View>
+          <Text>{inbox.name}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
   };
 
-  onButtonPress = () => {
-    this.props.navigation.navigate("addItem");
-  };
-
   render() {
     return (
       <View>
-        <Text>BrowseScreen</Text>
+        <Text>MessagesScreen</Text>
         <ListView
           enableEmptySections
           dataSource={this.dataSource}
           renderRow={this.renderRow}
         />
-        <View style={{ position: "absolute", right: 0 }}>
-          <Button
-            title="Add Item"
-            backgroundColor="#009688"
-            onPress={this.onButtonPress}
-          />
-        </View>
       </View>
     );
   }
@@ -77,11 +64,11 @@ class BrowseScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    items: state.items.allItems
+    inbox: state.messages.inbox
   };
 };
 
 export default connect(
   mapStateToProps,
   actions
-)(BrowseScreen);
+)(MessagesScreen);

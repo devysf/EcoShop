@@ -16,6 +16,8 @@ import BrowseScreen from "./src/screens/BrowseScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddItemScreen from "./src/screens/AddItemScreen";
 import DetailScreen from "./src/screens/DetailScreen";
+import MessagesScreen from "./src/screens/MessagesScreen";
+import ChatScreen from "./src/screens/ChatScreen";
 
 //Structure of Navigation
 const MainNavigator = createBottomTabNavigator({
@@ -35,7 +37,13 @@ const MainNavigator = createBottomTabNavigator({
             detail: { screen: DetailScreen }
           })
         },
-        profile: { screen: ProfileScreen }
+        profile: { screen: ProfileScreen },
+        messages: {
+          screen: createStackNavigator({
+            messages: { screen: MessagesScreen },
+            chat: { screen: ChatScreen }
+          })
+        }
       },
       {
         navigationOptions: {

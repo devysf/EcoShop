@@ -6,3 +6,4 @@ export const ITEMS_FETCH_WITH_UID = "itemsFetchWithUid";
 export const ALL_ITEMS_FETCH = "allItemsFetch";
 export const ITEM_CREATE = "itemCreate";
 export const ITEM_UPDATE = "itemUpdate";
+export const INBOX_FETCH = "inboxFetch";
