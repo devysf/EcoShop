@@ -5,14 +5,53 @@ import {
   Text,
   ListView,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  BackHandler,
+  Alert
 } from "react-native";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
+import firebase from "firebase";
+
 class BrowseScreen extends Component {
+  signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      this.props.navigation.navigate("auth");
+      this.props.userLogout();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  onBackButtonPressed = () => {
+    //DO: confirm message to log out
+    Alert.alert(
+      "Alert!!!",
+      "Are you sure that you want to close the application?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            this.signOutUser();
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+
+    return true;
+  };
   componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPressed);
+
     this.props.allItemsFetch();
 
     this.createDataSource(this.props);

@@ -11,15 +11,20 @@ import { firebaseConfig } from "../../config/firebaseConfig";
 class AuthScreen extends Component {
   componentWillMount() {
     firebase.initializeApp(firebaseConfig);
-    //i made below code comment line because of easy debugging
-    //if (this.props.user)
-    this.props.navigation.navigate("browse");
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.props.navigation.navigate("browse");
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    //i made below code comment line because of easy debugging
-    //if (nextProps.user)
-    this.props.navigation.navigate("browse");
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.props.navigation.navigate("browse");
+      }
+    });
   }
 
   render() {

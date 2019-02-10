@@ -4,8 +4,16 @@ import {
   LOGIN_REGISTER_FLAG,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER
+  LOGIN_USER,
+  USER_LOGOUT
 } from "./types";
+
+export const userLogout = () => {
+  console.log("User Logout action");
+  return {
+    type: USER_LOGOUT
+  };
+};
 
 export const changeLoginRegisterFlag = flag => {
   return {
@@ -50,8 +58,6 @@ export const loginUser = ({ email, password }) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(user => {
-        console.log("User login succes.");
-
         dispatch({
           type: LOGIN_USER_SUCCESS,
           payload: user

@@ -25,6 +25,7 @@ export const itemsFetchWithUid = () => {
 };
 
 export const allItemsFetch = () => {
+  console.log("All items fetch");
   return dispatch => {
     firebase
       .database()
