@@ -1,9 +1,29 @@
 import React, { Component } from "react";
-import { Text, View, Button, Image, Platform, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Platform,
+  ScrollView
+} from "react-native";
 import { MapView } from "expo";
 import firebase from "firebase";
 
+import { Card, Button, Icon } from "react-native-elements";
+
 export default class DetailScreen extends Component {
+  static navigationOptions = {
+    title: "Details",
+    headerStyle: {
+      backgroundColor: "#ADD8E6"
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold"
+    }
+  };
+
   onButtonPress = () => {
     console.log(this.props.navigation.state);
     var { owner, uid } = this.props.navigation.state.params.item;
@@ -22,11 +42,10 @@ export default class DetailScreen extends Component {
 
     if (owner !== displayName) {
       return (
-        <View style={{ position: "absolute", bottom: 20, left: 0, right: 0 }}>
+        <View>
           <Button
-            title="Send a message"
-            backgroundColor="#009688"
-            onPress={() => this.onButtonPress()}
+            title={`Send message to ${owner}`}
+            onPress={this.onButtonPress}
           />
         </View>
       );
@@ -47,24 +66,29 @@ export default class DetailScreen extends Component {
 
     return (
       <ScrollView>
-        <Text> Details Page </Text>
-        <Text> {name}</Text>
-        <Text> {description}</Text>
-        <Text> {price} $</Text>
-        <Text> {owner}</Text>
-
-        <View>
-          <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
-        </View>
-
-        <MapView
-          style={{ alignSelf: "stretch", height: 200 }}
-          region={location}
-          cacheEnabled={Platform.OS === "android"}
-          scrollEnabled={false}
-        />
-        {this.renderMessageButton()}
+        <Card title={name ? name : null} image={{ uri: image }}>
+          <Text style={styles.headline}>{description}</Text>
+          <Text style={styles.headline}>{price}$</Text>
+          <Text style={styles.headline}> by {owner}</Text>
+          <MapView
+            style={{ alignSelf: "stretch", height: 200 }}
+            region={location}
+            cacheEnabled={Platform.OS === "android"}
+            scrollEnabled={false}
+          />
+          {this.renderMessageButton()}
+        </Card>
       </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  headline: {
+    textAlign: "center", // <-- the magic
+    fontWeight: "bold",
+    fontSize: 18,
+    marginTop: 0,
+    width: 200
+  }
+});

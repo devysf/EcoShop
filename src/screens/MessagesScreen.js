@@ -10,8 +10,19 @@ import {
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
+import { ListItem } from "react-native-elements";
 
 class MessagesScreen extends Component {
+  static navigationOptions = {
+    title: "Messages",
+    headerStyle: {
+      backgroundColor: "#ADD8E6"
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold"
+    }
+  };
   componentWillMount() {
     //feth inbox
     this.props.inboxFetch();
@@ -31,27 +42,24 @@ class MessagesScreen extends Component {
     this.dataSource = ds.cloneWithRows(inbox);
   }
 
-  renderRow = inbox => {
+  renderRow = (inbox, i) => {
     return (
-      <TouchableWithoutFeedback
+      <ListItem
         onPress={() => {
-          //Go to one to one message screen
-          console.log("inbox: renderrow");
-          console.log(inbox);
           this.props.navigation.navigate("chat", { inbox });
         }}
-      >
-        <View>
-          <Text>{inbox.name}</Text>
-        </View>
-      </TouchableWithoutFeedback>
+        key={i}
+        title={inbox.name}
+        leftAvatar={{
+          source: null
+        }}
+      />
     );
   };
 
   render() {
     return (
       <View>
-        <Text>MessagesScreen</Text>
         <ListView
           enableEmptySections
           dataSource={this.dataSource}

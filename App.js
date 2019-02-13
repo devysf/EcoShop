@@ -11,6 +11,8 @@ import {
   createAppContainer
 } from "react-navigation";
 
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import AuthScreen from "./src/screens/AuthScreen";
 import BrowseScreen from "./src/screens/BrowseScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
@@ -46,6 +48,30 @@ const MainNavigator = createBottomTabNavigator({
         }
       },
       {
+        defaultNavigationOptions: ({ navigation }) => ({
+          tabBarIcon: ({ focused, horizontal, tintColor }) => {
+            const { routeName } = navigation.state;
+            let IconComponent = Ionicons;
+
+            let iconName;
+
+            if (routeName === "browse") {
+              iconName = `ios-search`;
+            } else if (routeName === "profile") {
+              iconName = `ios-home`;
+            } else if (routeName === "messages") {
+              iconName = `ios-chatboxes`;
+            }
+
+            return (
+              <IconComponent name={iconName} size={25} color={tintColor} />
+            );
+          }
+        }),
+        tabBarOptions: {
+          activeTintColor: "blue",
+          inactiveTintColor: "gray"
+        },
         navigationOptions: {
           tabBarVisible: false
         }
