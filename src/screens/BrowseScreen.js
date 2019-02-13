@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Button,
   View,
   Text,
   ListView,
@@ -9,6 +8,7 @@ import {
   BackHandler,
   Alert
 } from "react-native";
+import { Card, Button, Icon } from "react-native-elements";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -16,6 +16,17 @@ import * as actions from "../actions";
 import firebase from "firebase";
 
 class BrowseScreen extends Component {
+  static navigationOptions = {
+    title: "Browse",
+    headerStyle: {
+      backgroundColor: "#ADD8E6"
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold"
+    }
+  };
+
   signOutUser = async () => {
     try {
       await firebase.auth().signOut();
@@ -70,22 +81,27 @@ class BrowseScreen extends Component {
   }
 
   renderRow = item => {
+    console.log(item.name);
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          this.props.navigation.navigate("detail", { item });
-        }}
-      >
-        <View>
-          <Text>{item.name}</Text>
-          <View>
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 250, height: 250 }}
-            />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+      <View>
+        <Card title={item.name ? item.name : null} image={{ uri: item.image }}>
+          <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate("detail", { item });
+            }}
+            icon={<Icon name="code" color="#ffffff" />}
+            backgroundColor="#03A9F4"
+            buttonStyle={{
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0
+            }}
+            title="VIEW NOW"
+          />
+        </Card>
+      </View>
     );
   };
 
@@ -96,17 +112,23 @@ class BrowseScreen extends Component {
   render() {
     return (
       <View>
-        <Text>BrowseScreen</Text>
         <ListView
           enableEmptySections
           dataSource={this.dataSource}
           renderRow={this.renderRow}
         />
-        <View style={{ position: "absolute", right: 0 }}>
+        <View style={{ position: "absolute", bottom: 15, left: 15, right: 15 }}>
           <Button
-            title="Add Item"
-            backgroundColor="#009688"
+            title="  Add Item"
             onPress={this.onButtonPress}
+            icon={<Icon name="plus" type="font-awesome" color="#ffffff" />}
+            buttonStyle={{
+              backgroundColor: "#00D8E6",
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0
+            }}
           />
         </View>
       </View>
