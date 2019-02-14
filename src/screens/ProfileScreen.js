@@ -37,20 +37,6 @@ class ProfileScreen extends Component {
   renderRow(item) {
     return (
       <View style={styles.item}>
-        <Text>{item.name}</Text>
-        <View>
-          <Image
-            source={{ uri: item.image }}
-            style={{ width: 100, height: 100 }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  renderRow2(item) {
-    return (
-      <View style={styles.item}>
         <Card title={item.name ? item.name : null} image={{ uri: item.image }}>
           <Text style={{ marginBottom: 10 }}>{item.description}</Text>
         </Card>
@@ -83,7 +69,7 @@ class ProfileScreen extends Component {
             contentContainerStyle={styles.list}
             enableEmptySections
             dataSource={this.dataSource}
-            renderRow={this.renderRow2}
+            renderRow={this.renderRow}
           />
         </View>
       </ScrollView>

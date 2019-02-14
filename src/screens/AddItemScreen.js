@@ -51,9 +51,7 @@ class AddItemScreen extends Component {
           value={this.props.price}
         />
 
-        <View>
-          <UploadImage />
-        </View>
+        <UploadImage />
 
         <View>
           <UploadLocation />
