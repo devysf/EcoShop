@@ -1,6 +1,8 @@
 # EcoShop
 
-My first react native app to practise what i learned.
+My first react native app to practise what i learned in the Stephan Grider and Maximilian Schwarzmüller's React Native courses. (links: https://www.udemy.com/course/the-complete-react-native-and-redux-course/ 
+https://www.udemy.com/course/react-native-advanced/
+https://www.udemy.com/course/react-native-the-practical-guide/)
 
 ## Live Demo
 
